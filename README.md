@@ -16,6 +16,7 @@ apps/web    React + Vite + TypeScript dashboard
 apps/api    Express + Prisma (SQLite) + Zod backend
 prisma      Schema and seed data
 docs        Architecture, domain rules, API guidelines, security, PRD, workshop guide
+exercises   Hands-on workshop exercises, one markdown per Copilot topic
 specs       Spec-driven workflow for the workshop feature (intentionally incomplete)
 scripts     Database, security-check, and workshop helper scripts
 .github     Copilot instructions, prompts, agents, skills, hooks, CI
@@ -111,8 +112,32 @@ Some tests are **intentionally skipped** — they describe the workshop feature
 | `service_owner` | Approve/reject requests and revoke keys for services their team owns |
 | `platform_admin` | Manage all services, view all requests and audit logs, revoke any key |
 
+## Workshop exercises
+
+The hands-on exercises live in the [`exercises/`](exercises/) folder — **one markdown
+file per Copilot topic** from the advanced session:
+
+| # | Topic | File |
+|---|-------|------|
+| 1 | Copilot Hooks | [`exercises/01-copilot-hooks.md`](exercises/01-copilot-hooks.md) |
+| 2 | Copilot Memory | [`exercises/02-copilot-memory.md`](exercises/02-copilot-memory.md) |
+| 3 | Subagents | [`exercises/03-subagents.md`](exercises/03-subagents.md) |
+| 4 | Copilot Spaces | [`exercises/04-copilot-spaces.md`](exercises/04-copilot-spaces.md) |
+| 5 | APM (Agent Package Manager) | [`exercises/05-apm.md`](exercises/05-apm.md) |
+| 6 | Copilot CLI | [`exercises/06-copilot-cli.md`](exercises/06-copilot-cli.md) |
+| 7 | Usage-Based Billing | [`exercises/07-usage-based-billing.md`](exercises/07-usage-based-billing.md) |
+| 8 | Plan Mode (RPI) | [`exercises/08-plan-mode.md`](exercises/08-plan-mode.md) |
+| 9 | Ralph Loops | [`exercises/09-ralph-loops.md`](exercises/09-ralph-loops.md) |
+| 10 | Spec-Driven Development | [`exercises/10-spec-driven-development.md`](exercises/10-spec-driven-development.md) |
+| ★ | Capstone (chain them) | [`exercises/99-capstone.md`](exercises/99-capstone.md) |
+
+**Start here:** [`exercises/README.md`](exercises/README.md) — it has the setup/reset
+cheat-sheet, the seeded users, and a map of every planted issue and where it lives. Each
+exercise file gives the goal, what you'll achieve, the tools to use, concrete steps, and
+an open space to brainstorm your own ideas.
+
 ## Where to start (instructors)
 
 Read `docs/WORKSHOP_GUIDE.md` for the 3-hour agenda and `docs/PARTICIPANT_TASKS.md`
-for the hands-on exercises. `docs/KNOWN_ISSUES.md` lists *some* of the planted issues
-— others are left for discovery.
+for the hands-on exercises, then hand participants the [`exercises/`](exercises/) folder.
+`docs/KNOWN_ISSUES.md` lists *some* of the planted issues — others are left for discovery.
