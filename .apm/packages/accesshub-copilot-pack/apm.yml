@@ -1,0 +1,16 @@
+name: accesshub-copilot-pack
+version: 0.1.0
+description: Reusable Copilot assets for internal developer-platform repositories.
+
+provides:
+  instructions:
+    - instructions/api-style.instructions.md
+    - instructions/security.instructions.md
+  prompts:
+    - prompts/service-review.prompt.md
+    - prompts/test-generation.prompt.md
+  skills:
+    - skills/secure-api-key-handling.skill.md
+    - skills/api-error-standardization.skill.md
+  agents:
+    - agents/security-reviewer.agent.md

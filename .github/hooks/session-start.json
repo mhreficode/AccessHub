@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "type": "command",
+        "bash": "./scripts/validate-workshop-state.sh",
+        "powershell": "./scripts/validate-workshop-state.ps1",
+        "cwd": ".",
+        "timeoutSec": 20
+      }
+    ]
+  }
+}

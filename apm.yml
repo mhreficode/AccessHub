@@ -1,0 +1,10 @@
+name: accesshub
+version: 1.0.0
+description: AccessHub workshop project for advanced GitHub Copilot workflows.
+
+# Declares a dependency on a locally-vendored example package of reusable Copilot
+# assets (instructions, prompts, skills, agents). In a real setup this could point at a
+# published package shared across repositories.
+dependencies:
+  apm:
+    - ./.apm/packages/accesshub-copilot-pack

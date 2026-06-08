@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "type": "command",
+        "bash": "./scripts/security-check.sh",
+        "powershell": "./scripts/security-check.ps1",
+        "cwd": ".",
+        "timeoutSec": 15
+      },
+      {
+        "type": "command",
+        "bash": "./scripts/log-tool-use.sh",
+        "powershell": "./scripts/log-tool-use.ps1",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ]
+  }
+}
