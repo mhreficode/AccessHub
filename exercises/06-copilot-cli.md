@@ -45,7 +45,6 @@ The four `copilot -p "..."` lines above are the read-only analyses to copy. Insi
 interactive `copilot` session, also try:
 ```text
 !bash scripts/security-check.sh          # run a shell command without leaving Copilot
-/rubberduck                              # paste a plan and let Copilot critique it
 /share cli-analysis.md                   # save the conversation/analysis to a file
 ```
 
@@ -55,7 +54,6 @@ and 9 from the terminal.
 ## 💡 Ideas & variations
 
 - Pipe a prompt in via stdin and post-process the output with `jq`/`grep` in a script.
-- Use `/rubberduck` on the plan from exercise 8 before implementing.
 - Note which models/features differ from your IDE — and when the CLI unlocks something
   the IDE can't do.
 
