@@ -46,6 +46,7 @@ interactive `copilot` session, also try:
 ```text
 !bash scripts/security-check.sh          # run a shell command without leaving Copilot
 /share cli-analysis.md                   # save the conversation/analysis to a file
+/fleet do three different reviews                # Run tasks in parallel
 ```
 
 **Definition of done:** a shared analysis file exists, and you've located issues 1, 3,
