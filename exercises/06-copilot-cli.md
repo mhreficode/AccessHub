@@ -39,6 +39,16 @@ copilot -p "Why is the API key revocation test incomplete? See apps/api/src/test
 Then, inside an interactive session: run `!bash scripts/security-check.sh`, and use
 `/share` to drop the analysis into a markdown file.
 
+### 💬 Prompts / commands to use with Copilot
+
+The four `copilot -p "..."` lines above are the read-only analyses to copy. Inside an
+interactive `copilot` session, also try:
+```text
+!bash scripts/security-check.sh          # run a shell command without leaving Copilot
+/rubberduck                              # paste a plan and let Copilot critique it
+/share cli-analysis.md                   # save the conversation/analysis to a file
+```
+
 **Definition of done:** a shared analysis file exists, and you've located issues 1, 3,
 and 9 from the terminal.
 

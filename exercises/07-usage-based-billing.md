@@ -38,6 +38,21 @@ usage, and decide how you'd run the *other* exercises cost-consciously.
    debugging.)
 4. If using the CLI, try `/chronicle` to inspect usage.
 
+### 💬 Prompts to use with Copilot
+
+Run these two back to back and compare how much context each pulls in (and, in the CLI,
+the credits each reports):
+
+**Narrow & cheap:**
+> In `apps/api/src/routes/services.routes.ts`, change only the not-found response in the
+> get-service-by-id handler to use the `notFound` helper. Touch nothing else.
+
+**Broad & expensive:**
+> Review the entire backend under `apps/api/src` for correctness, security, architecture,
+> and test gaps, and propose fixes.
+
+Then, in Copilot CLI: `/chronicle` to inspect usage.
+
 **Definition of done:** the group can justify a model + context choice for each remaining
 exercise.
 

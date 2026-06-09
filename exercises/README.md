@@ -25,7 +25,8 @@ unfinished feature (Expiring Service Access) so you do real work, not toy edits.
 - **🎯 Goal** — what the exercise is about, in one breath.
 - **🏆 What you'll achieve** — the concrete "definition of done".
 - **🧰 Tools you can use** — the Copilot features and repo assets in play.
-- **🔧 The exercise** — where to look and concrete steps.
+- **🔧 The exercise** — where to look, concrete steps, and **💬 ready-to-use prompts** you
+  can paste straight into Copilot.
 - **💡 Ideas & variations** — extra directions if you finish early.
 - **🧠 Your turn — brainstorm** — an open space to invent your own exercise.
 

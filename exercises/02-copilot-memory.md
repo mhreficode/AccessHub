@@ -45,6 +45,23 @@ already holds it.
 3. Now fix `apiKeys.routes.ts:30` with a **short** prompt (e.g. *"standardize this
    endpoint's error"*). Notice Copilot applies the remembered convention unprompted.
 
+### 💬 Prompts to use with Copilot
+
+**Step 1 — fix the first endpoint:**
+> In `apps/api/src/routes/services.routes.ts`, the not-found response returns
+> `{ message: 'Service not found' }`. Refactor it to throw
+> `notFound('SERVICE_NOT_FOUND', 'Service not found')` from `apps/api/src/utils/errors.ts`
+> so the central error handler emits the standard `{ error: { code, message, details } }`
+> shape. Then run `npm run test:api`.
+
+**Step 2 — create the memory** (run in Copilot CLI or the cloud agent, where memory lives):
+> Remember that AccessHub API errors must always use the shape
+> `{ error: { code, message, details } }` produced via `apps/api/src/utils/errors.ts`, and
+> that business logic lives in services while database access lives in repositories.
+
+**Step 3 — reuse it with a short prompt:**
+> Standardize the error response in `apps/api/src/routes/apiKeys.routes.ts`.
+
 **Definition of done:** both endpoints return the standard shape; `npm run test:api`
 passes; you can show the second fix took less context.
 

@@ -89,6 +89,30 @@ add a second sessionStart command) to **print the repo's top security rules** ("
 or store raw keys; enforce authz in the backend; sanitize rendered markdown") so every
 new session starts with the rules fresh in context.
 
+### 💬 Prompts to use with Copilot
+
+**Part A — add a postToolUse hook, then trip it on purpose:**
+> Create `.github/hooks/post-tool-use.json` that runs `./scripts/security-check.sh` after
+> edit/write tools (mirror the structure of `.github/hooks/pre-tool-use.json`, but use the
+> `postToolUse` event). Then add a `console.log` of the raw key in
+> `apps/api/src/services/apiKey.service.ts` for debugging.
+
+**Fix it and explain:**
+> Remove the raw API key log you just added and explain in one line why logging raw keys
+> is unsafe.
+
+**Part B — turn the warning into a block:**
+> Update `scripts/security-check.sh` so it flags any `console.*` containing key, token,
+> secret, or password, and exits non-zero when `STRICT=1`. Then change
+> `.github/hooks/pre-tool-use.json` to run it with the env var `STRICT=1`, so the
+> pre-tool hook denies an edit that would log a secret. Then try to add that debug log
+> again so we can confirm it's blocked.
+
+**Part C — recall the rules at session start:**
+> Extend `.github/hooks/session-start.json` (or add a second sessionStart command) to
+> print AccessHub's top security rules at the start of every session: never log or store
+> raw API keys, enforce authorization in the backend, and sanitize rendered markdown.
+
 **Definition of done:** Part A reports the planted secret after an edit; Part B blocks a
 new secret-log before it lands (`STRICT=1 bash scripts/security-check.sh` exits non-zero
 while the bug exists, `0` once fixed); Part C prints the rules at session start.

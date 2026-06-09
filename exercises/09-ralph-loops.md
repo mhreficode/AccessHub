@@ -44,6 +44,21 @@ markdown).
 3. Watch each iteration: pick **one** unchecked task → make the change → run tests →
    append to `.agent/progress.md` → check the box in `docs/PRD.md` only if tests pass.
 
+### 💬 Prompts to use with Copilot
+
+**Run one iteration by hand first** (this is exactly what `scripts/ralph-loop.sh` feeds
+Copilot each loop, from `.github/prompts/ralph-iteration.prompt.md`):
+> Read `docs/PRD.md` and pick the next single unchecked task (`- [ ]`, top-down).
+> Implement only that one task with the smallest reasonable change. Run the relevant tests
+> (`npm run test:api` / `npm run test:web`). Append a short note to `.agent/progress.md`
+> (the task, what changed, the test result). Check the box in `docs/PRD.md` only if the
+> tests pass. Then stop — do not start the next task.
+
+```bash
+copilot -p "$(cat .github/prompts/ralph-iteration.prompt.md)"   # one manual iteration
+bash scripts/ralph-loop.sh 2                                     # then the bounded loop
+```
+
 **Definition of done:** N boxes checked, `.agent/progress.md` notes match, and
 `npm test` passes. Reset afterward with `npm run workshop:reset` + `git checkout -- .`.
 

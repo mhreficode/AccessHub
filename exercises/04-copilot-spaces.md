@@ -40,6 +40,17 @@ ungrounded answers — including discovering a hidden documentation defect along
      in `prisma/seed.ts:76`).
 3. Ask the same questions in a plain chat **without** the Space and compare specificity.
 
+### 💬 Prompts to use with Copilot
+
+Ask each of these **inside the Space**, then again in a plain chat **without** it, and
+compare:
+> Using the AccessHub space: who is allowed to approve an access request, and which layer
+> of the code must enforce that check?
+> Using the AccessHub space: the Identity API documentation references a deprecated
+> endpoint — which one is it, and what should be used instead?
+> Using the AccessHub space: which files should I update if the API-key lifecycle rules
+> change?
+
 **Definition of done:** the Space answers cite the domain rules and the correct
 files/layers, and correctly name the deprecated endpoint and its replacement.
 

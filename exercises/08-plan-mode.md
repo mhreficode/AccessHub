@@ -46,6 +46,20 @@ and judge the plan's quality against the real codebase and the existing spec.
 - **Clarifying question it should raise:** lazy (compute on read) vs scheduled (job)
   expiry? (This is genuinely left open in `specs/access-expiration/design.md`.)
 
+### 💬 Prompts to use with Copilot
+
+**The plan prompt (the one above, ready to copy):**
+> Use Plan Mode. We need to add expiring service access to AccessHub. Research the current
+> code first, identify every file the feature touches (schema, services, routes, frontend,
+> tests, docs), ask any clarifying questions, then produce an atomic task plan. Do not
+> implement until I approve.
+
+**Optional — make it earn the plan with a vague request, to see it ask questions:**
+> We want access to expire. Plan it.
+
+**Optional — critique before approving (Copilot CLI):**
+> /rubberduck   ← paste the plan and ask Copilot to find gaps, risks, and missing files.
+
 **Definition of done:** the plan hits the real touch-points and raises the lazy-vs-scheduled
 question; you've compared it to `specs/access-expiration/` and `docs/PRD.md`. No code yet —
 exercise 10 implements.

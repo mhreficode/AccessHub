@@ -45,6 +45,21 @@ then implement **one** task and make a previously-skipped test pass.
 3. **Un-skip** the matching case in `apps/api/src/tests/accessExpiration.skip.test.ts`
    (e.g. *"revokes/invalidates API keys for expired access"*) and make it pass.
 
+### 💬 Prompts to use with Copilot
+
+**Refine the spec (no code yet):**
+> Using `specs/access-expiration/` and keeping it consistent with `docs/DOMAIN_RULES.md`
+> and `docs/SECURITY.md`: resolve the TODO markers in `spec.md` with Given/When/Then
+> scenarios, pick the lazy-vs-scheduled expiry decision in `design.md` and justify it, and
+> expand `tasks.md` into small, ordered, testable tasks. Do not write implementation code.
+
+**Implement one task:**
+> Implement only this task: reject API keys tied to expired access in
+> `apps/api/src/services/apiKey.service.ts` `validateKey()`. Add an `expiresAt` field to
+> the access model and set it at approval time in `accessRequest.service.ts`. Then un-skip
+> the "revokes/invalidates API keys for expired access" test in
+> `apps/api/src/tests/accessExpiration.skip.test.ts` and make it pass. Run `npm run test:api`.
+
 **Definition of done:** spec files consistent with the domain/security docs; one
 previously-skipped test now active and green; `npm run test:api` passes; docs updated.
 

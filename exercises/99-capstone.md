@@ -34,6 +34,17 @@ review subagents, and the security hook.
 5. **Guard (exercise 1):** harden `scripts/security-check.sh` / the hook so the planted
    defects (raw-key log, unsafe markdown, missing audit) can't reappear.
 
+### 💬 Prompts to use with Copilot
+
+Each step reuses the prompts from its own exercise file (1, 3, 8, 9, 10). A single
+end-to-end kickoff you can paste into Plan Mode to start:
+> Use Plan Mode. We're going to ship "Expiring Service Access" in AccessHub end to end.
+> First research the codebase and write an atomic plan. After I approve, refine the spec
+> in `specs/access-expiration/`, then implement the tasks one at a time (un-skipping the
+> tests in `apps/api/src/tests/accessExpiration.skip.test.ts` as they pass), and finally
+> review the result from security, architecture, and test-coverage perspectives. Do not
+> implement until I approve the plan.
+
 **Definition of done:** at least one expiration task is implemented with a passing
 (previously-skipped) test, reviewed by subagents, and protected by the hook; the spec and
 docs reflect the change.

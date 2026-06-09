@@ -42,6 +42,20 @@ Understand the package layout, then author a new reusable skill in the local pac
 3. "Install" it locally by copying it into `.github/skills/`, then use it to review any
    change from exercise 8/10.
 
+### 💬 Prompts to use with Copilot
+
+**Create the reusable skill:**
+> Look at the existing skills under `.apm/packages/accesshub-copilot-pack/skills/`, then
+> create a new one at
+> `.apm/packages/accesshub-copilot-pack/skills/access-expiration-review.skill.md`. It
+> should tell Copilot how to review an access-expiration implementation for correctness,
+> security, auditability, and tests, ending with a short review checklist. Match the
+> style of the existing skill files.
+
+**Install it locally and use it:**
+> Copy `access-expiration-review.skill.md` into `.github/skills/`, then use it to review
+> my access-expiration changes and give me a checklist-based review.
+
 **Definition of done:** the new skill exists in the pack, works from `.github/skills/`,
 and produces a focused review checklist for the expiration feature.
 

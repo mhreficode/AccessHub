@@ -47,6 +47,18 @@ three issues, each caught by a different lens.
      and the service (`accessRequest.service.ts:21`); plus the `reason` Zod schema in
      `validators/access.validators.ts:4` is **defined but never used** — dead code (issue 6).
 
+### 💬 Prompts to use with Copilot
+
+**Multi-perspective review:**
+> Review `apps/api/src/services/accessRequest.service.ts` using parallel subagents — a
+> security reviewer, an API-architecture reviewer, and a correctness/business-rule
+> reviewer. Keep each perspective isolated, then synthesize one prioritized review
+> (Critical / Important / Nice-to-have) with `file:line` and the smallest fix for each.
+
+**Then compare against a single pass:**
+> Now review the same file in a single pass, without subagents. Compared to the
+> multi-perspective review, what did this single pass miss?
+
 **Definition of done:** the merged review lists all three with file/line and a suggested
 fix, ranked by severity.
 
