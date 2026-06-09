@@ -22,7 +22,7 @@ and capture the analysis to a file.
 ## 🧰 Tools you can use
 
 - `copilot -p "<prompt>"` (one-shot / piped) and the interactive TUI.
-- Built-ins: `/share` (save chat to a file), `/rubberduck` (assess the agent's plan),
+- Built-ins: `/share` (save chat to a file),
   `/chronicle` (usage insights), `!` to run bash inline, `Ctrl+Z` then `fg` to hop out and
   back.
 - Repo scripts you can run inline: `scripts/security-check.sh`, `scripts/detect-secrets.sh`.
