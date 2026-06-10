@@ -22,7 +22,7 @@ and capture the analysis to a file.
 ## 🧰 Tools you can use
 
 - `copilot -p "<prompt>"` (one-shot / piped) and the interactive TUI.
-- Built-ins: `/share` (save chat to a file), `/rubberduck` (assess the agent's plan),
+- Built-ins: `/share` (save chat to a file),
   `/chronicle` (usage insights), `!` to run bash inline, `Ctrl+Z` then `fg` to hop out and
   back.
 - Repo scripts you can run inline: `scripts/security-check.sh`, `scripts/detect-secrets.sh`.
@@ -45,8 +45,8 @@ The four `copilot -p "..."` lines above are the read-only analyses to copy. Insi
 interactive `copilot` session, also try:
 ```text
 !bash scripts/security-check.sh          # run a shell command without leaving Copilot
-/rubberduck                              # paste a plan and let Copilot critique it
 /share cli-analysis.md                   # save the conversation/analysis to a file
+/fleet do three different reviews                # Run tasks in parallel
 ```
 
 **Definition of done:** a shared analysis file exists, and you've located issues 1, 3,
@@ -55,7 +55,6 @@ and 9 from the terminal.
 ## 💡 Ideas & variations
 
 - Pipe a prompt in via stdin and post-process the output with `jq`/`grep` in a script.
-- Use `/rubberduck` on the plan from exercise 8 before implementing.
 - Note which models/features differ from your IDE — and when the CLI unlocks something
   the IDE can't do.
 
