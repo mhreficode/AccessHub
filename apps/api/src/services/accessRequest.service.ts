@@ -2,8 +2,8 @@ import { accessRequestRepository, type AccessRequestFilter } from '../repositori
 import { serviceRepository } from '../repositories/service.repository';
 import { auditLogService } from './auditLog.service';
 import { apiKeyService } from './apiKey.service';
-import { type AuthUser } from './authz.service';
-import { badRequest, conflict, forbidden, notFound } from '../utils/errors';
+import { assertCanReviewAccessRequest, type AuthUser } from './authz.service';
+import { conflict, notFound } from '../utils/errors';
 
 export const accessRequestService = {
   list(filter: AccessRequestFilter = {}) {
@@ -14,12 +14,6 @@ export const accessRequestService = {
     const service = await serviceRepository.findById(serviceId);
     if (!service) {
       throw notFound('SERVICE_NOT_FOUND', 'Service not found');
-    }
-
-    // Duplicate validation: the route already validates `reason` with Zod, but the
-    // service re-checks it here too. (Workshop refactor target.)
-    if (!reason || reason.trim().length < 10) {
-      throw badRequest('A reason of at least 10 characters is required.');
     }
 
     const created = await accessRequestRepository.create({
@@ -45,10 +39,7 @@ export const accessRequestService = {
       throw notFound('ACCESS_REQUEST_NOT_FOUND', 'Access request not found');
     }
 
-    // Authorization check. Developers clearly cannot approve.
-    if (currentUser.role === 'developer') {
-      throw forbidden('Developers cannot approve access requests.');
-    }
+    assertCanReviewAccessRequest(currentUser, request.service);
 
     if (request.status !== 'pending') {
       throw conflict(`Request is already ${request.status}.`);
@@ -87,9 +78,7 @@ export const accessRequestService = {
       throw notFound('ACCESS_REQUEST_NOT_FOUND', 'Access request not found');
     }
 
-    if (currentUser.role === 'developer') {
-      throw forbidden('Developers cannot reject access requests.');
-    }
+    assertCanReviewAccessRequest(currentUser, request.service);
 
     if (request.status !== 'pending') {
       throw conflict(`Request is already ${request.status}.`);
@@ -100,6 +89,14 @@ export const accessRequestService = {
       reviewedById: currentUser.id,
       reviewedAt: new Date(),
       rejectionReason: rejectionReason?.trim() || 'No reason provided',
+    });
+
+    await auditLogService.record({
+      actorUserId: currentUser.id,
+      action: 'access.rejected',
+      entityType: 'AccessRequest',
+      entityId: requestId,
+      message: `Access to ${request.service.name} rejected for ${request.requester.name}.`,
     });
 
     return updated;

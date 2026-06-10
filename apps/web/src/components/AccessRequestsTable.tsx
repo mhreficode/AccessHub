@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAccessRequests } from '../hooks/useAccessRequests';
 import { useCurrentUser } from '../context/CurrentUserContext';
-import { canApproveRequests } from '../utils/permissions';
+import { canApproveRequests, canReviewAccessRequest } from '../utils/permissions';
 import { approveRequest, rejectRequest } from '../api/accessApi';
 import { StatusBadge } from './StatusBadge';
 import { formatDate } from '../utils/formatters';
@@ -13,9 +13,7 @@ export function AccessRequestsTable() {
   const [issuedKey, setIssuedKey] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
 
-  // NOTE: this only controls whether the buttons render. The backend must also
-  // enforce who can approve/reject.
-  const showActions = canApproveRequests(user);
+  const showActionsColumn = canApproveRequests(user);
 
   async function onApprove(id: string) {
     setBusyId(id);
@@ -64,7 +62,7 @@ export function AccessRequestsTable() {
             <th style={{ padding: 8 }}>Reason</th>
             <th style={{ padding: 8 }}>Status</th>
             <th style={{ padding: 8 }}>Requested</th>
-            {showActions && <th style={{ padding: 8 }}>Actions</th>}
+            {showActionsColumn && <th style={{ padding: 8 }}>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -77,9 +75,9 @@ export function AccessRequestsTable() {
                 <StatusBadge status={r.status} />
               </td>
               <td style={{ padding: 8 }}>{formatDate(r.createdAt)}</td>
-              {showActions && (
+              {showActionsColumn && (
                 <td style={{ padding: 8 }}>
-                  {r.status === 'pending' ? (
+                  {r.status === 'pending' && canReviewAccessRequest(user, r) ? (
                     <span style={{ display: 'flex', gap: 6 }}>
                       <button disabled={busyId === r.id} onClick={() => onApprove(r.id)}>
                         Approve

@@ -38,6 +38,14 @@ describe('POST /api/access-requests/:id/approve', () => {
     expect(res.body.error.code).toBe('FORBIDDEN');
   });
 
+  it('forbids non-owning service owners from approving', async () => {
+    const res = await request(app)
+      .post('/api/access-requests/req-pending/approve')
+      .set('x-user-id', 'u-sara');
+    expect(res.status).toBe(403);
+    expect(res.body.error.code).toBe('FORBIDDEN');
+  });
+
   it('conflicts when the request is not pending', async () => {
     const res = await request(app)
       .post('/api/access-requests/req-approved/approve')
@@ -54,6 +62,27 @@ describe('POST /api/access-requests/:id/reject', () => {
       .send({ rejectionReason: 'Use the shared dashboard instead.' });
     expect(res.status).toBe(200);
     expect(res.body.status).toBe('rejected');
+  });
+
+  it('writes an audit event when access is rejected', async () => {
+    await request(app)
+      .post('/api/access-requests/req-pending/reject')
+      .set('x-user-id', 'u-omar')
+      .send({ rejectionReason: 'Use the shared dashboard instead.' });
+
+    const audit = await prisma.auditLog.findFirst({
+      where: { action: 'access.rejected', entityId: 'req-pending' },
+    });
+    expect(audit).not.toBeNull();
+  });
+
+  it('forbids non-owning service owners from rejecting', async () => {
+    const res = await request(app)
+      .post('/api/access-requests/req-pending/reject')
+      .set('x-user-id', 'u-sara')
+      .send({ rejectionReason: 'Not for this team.' });
+    expect(res.status).toBe(403);
+    expect(res.body.error.code).toBe('FORBIDDEN');
   });
 });
 

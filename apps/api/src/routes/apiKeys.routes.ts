@@ -4,6 +4,7 @@ import { requireUser } from '../middleware/currentUser';
 import { apiKeyService } from '../services/apiKey.service';
 import { apiKeyRepository } from '../repositories/apiKey.repository';
 import { serializeApiKey } from '../utils/serializers';
+import { notFound } from '../utils/errors';
 
 export const apiKeysRouter = Router();
 
@@ -26,9 +27,7 @@ apiKeysRouter.post(
     const user = requireUser(req);
     const existing = await apiKeyRepository.findById(req.params.id);
     if (!existing) {
-      // NOTE: ad-hoc error shape.
-      res.status(404).json({ error: 'API key not found' });
-      return;
+      throw notFound('API_KEY_NOT_FOUND', 'API key not found');
     }
     const revoked = await apiKeyService.revoke(user, req.params.id);
     res.json(serializeApiKey({ ...revoked, service: existing.service }));

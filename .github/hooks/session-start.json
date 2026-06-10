@@ -8,6 +8,13 @@
         "powershell": "./scripts/validate-workshop-state.ps1",
         "cwd": ".",
         "timeoutSec": 20
+      },
+      {
+        "type": "command",
+        "bash": "printf '%s\n' '{\"additionalContext\":\"Session variable: x=5. Treat x as 5 unless explicitly overridden by the user in this chat.\"}'",
+        "powershell": "Write-Output '{\"additionalContext\":\"Session variable: x=5. Treat x as 5 unless explicitly overridden by the user in this chat.\"}'",
+        "cwd": ".",
+        "timeoutSec": 5
       }
     ]
   }

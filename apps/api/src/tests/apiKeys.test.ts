@@ -43,6 +43,23 @@ describe('POST /api/api-keys/:id/revoke', () => {
       .post('/api/api-keys/does-not-exist/revoke')
       .set('x-user-id', 'u-nina');
     expect(res.status).toBe(404);
+    expect(res.body.error.code).toBe('API_KEY_NOT_FOUND');
+  });
+
+  it('forbids non-owning service owners from revoking', async () => {
+    const res = await request(app)
+      .post('/api/api-keys/key-active/revoke')
+      .set('x-user-id', 'u-sara');
+    expect(res.status).toBe(403);
+    expect(res.body.error.code).toBe('FORBIDDEN');
+  });
+
+  it('allows owning service owners to revoke', async () => {
+    const res = await request(app)
+      .post('/api/api-keys/key-active/revoke')
+      .set('x-user-id', 'u-omar');
+    expect(res.status).toBe(200);
+    expect(res.body.status).toBe('revoked');
   });
 
   // NOTE: there is no test yet that a revoked key is rejected by validateKey().

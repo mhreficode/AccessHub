@@ -29,6 +29,11 @@ export function canManageService(user: AuthUser, service: OwnedEntity): boolean 
   return isServiceOwner(user) && user.teamId === service.ownerTeamId;
 }
 
+/** True if the user can review an access request for a given owning team. */
+export function canReviewAccessRequest(user: AuthUser, service: OwnedEntity): boolean {
+  return canManageService(user, service);
+}
+
 /** True if the user may revoke the given key (admin, owning team, or the key holder). */
 export function canRevokeKey(
   user: AuthUser,
@@ -42,6 +47,12 @@ export function canRevokeKey(
 export function assertCanManageService(user: AuthUser, service: OwnedEntity): void {
   if (!canManageService(user, service)) {
     throw forbidden('Only the owning team or a platform admin can manage this service.');
+  }
+}
+
+export function assertCanReviewAccessRequest(user: AuthUser, service: OwnedEntity): void {
+  if (!canReviewAccessRequest(user, service)) {
+    throw forbidden('Only the owning team or a platform admin can review this access request.');
   }
 }
 

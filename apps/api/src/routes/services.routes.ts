@@ -5,6 +5,8 @@ import { serviceRepository } from '../repositories/service.repository';
 import { serviceCatalogService } from '../services/serviceCatalog.service';
 import { accessRequestService } from '../services/accessRequest.service';
 import { updateServiceSchema } from '../validators/service.validators';
+import { createAccessRequestSchema } from '../validators/access.validators';
+import { notFound } from '../utils/errors';
 
 export const servicesRouter = Router();
 
@@ -27,9 +29,7 @@ servicesRouter.get(
   asyncHandler(async (req, res) => {
     const service = await serviceRepository.findById(req.params.id);
     if (!service) {
-      // NOTE: ad-hoc error shape.
-      res.status(404).json({ message: 'Service not found' });
-      return;
+      throw notFound('SERVICE_NOT_FOUND', 'Service not found');
     }
     res.json(service);
   }),
@@ -40,12 +40,7 @@ servicesRouter.post(
   '/:id/access-requests',
   asyncHandler(async (req, res) => {
     const user = requireUser(req);
-    const reason: string = req.body?.reason ?? '';
-    if (reason.trim().length < 10) {
-      // NOTE: ad-hoc error shape, and duplicates the check in accessRequestService.
-      res.status(400).json({ message: 'reason must be at least 10 characters' });
-      return;
-    }
+    const { reason } = createAccessRequestSchema.parse(req.body);
     const created = await accessRequestService.requestAccess(user, req.params.id, reason);
     res.status(201).json(created);
   }),

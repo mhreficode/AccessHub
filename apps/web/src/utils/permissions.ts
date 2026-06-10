@@ -1,4 +1,4 @@
-import type { ApiKey, Role, User } from '../types';
+import type { AccessRequest, ApiKey, Role, User } from '../types';
 
 /**
  * Frontend permission helpers. These decide which buttons/tabs to show.
@@ -13,6 +13,14 @@ export function canApproveRequests(user: User | null): boolean {
   return !!user && PRIVILEGED.includes(user.role);
 }
 
+export function canReviewAccessRequest(user: User | null, request: AccessRequest): boolean {
+  if (!user) return false;
+  if (user.role === 'platform_admin') return true;
+  if (user.role !== 'service_owner') return false;
+  if (!user.teamId) return false;
+  return request.service?.ownerTeamId === user.teamId;
+}
+
 export function canViewAuditLog(user: User | null): boolean {
   return !!user && PRIVILEGED.includes(user.role);
 }
@@ -25,5 +33,7 @@ export function canRevokeKey(user: User | null, key: ApiKey): boolean {
   if (!user) return false;
   if (user.role === 'platform_admin') return true;
   if (key.userId === user.id) return true;
-  return user.role === 'service_owner';
+  if (user.role !== 'service_owner') return false;
+  if (!user.teamId) return false;
+  return key.ownerTeamId === user.teamId;
 }

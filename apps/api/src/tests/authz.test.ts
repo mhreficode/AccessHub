@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { canManageService, canRevokeKey, type AuthUser } from '../services/authz.service';
+import {
+  assertCanReviewAccessRequest,
+  canManageService,
+  canReviewAccessRequest,
+  canRevokeKey,
+  type AuthUser,
+} from '../services/authz.service';
 
 const admin: AuthUser = { id: 'u-alice', role: 'platform_admin', teamId: 'team-platform' };
 const paymentsOwner: AuthUser = { id: 'u-omar', role: 'service_owner', teamId: 'team-payments' };
@@ -39,5 +45,25 @@ describe('canRevokeKey', () => {
 
   it('rejects unrelated owners', () => {
     expect(canRevokeKey(platformOwner, key)).toBe(false);
+  });
+});
+
+describe('canReviewAccessRequest', () => {
+  it('allows platform admins', () => {
+    expect(canReviewAccessRequest(admin, paymentsService)).toBe(true);
+  });
+
+  it('allows owning team service owners', () => {
+    expect(canReviewAccessRequest(paymentsOwner, paymentsService)).toBe(true);
+  });
+
+  it('rejects service owners from other teams', () => {
+    expect(canReviewAccessRequest(platformOwner, paymentsService)).toBe(false);
+  });
+});
+
+describe('assertCanReviewAccessRequest', () => {
+  it('throws for non-owning service owners', () => {
+    expect(() => assertCanReviewAccessRequest(platformOwner, paymentsService)).toThrow();
   });
 });

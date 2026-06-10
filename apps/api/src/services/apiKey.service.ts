@@ -22,11 +22,6 @@ export const apiKeyService = {
   }) {
     const { raw, prefix, hash } = generateApiKey();
 
-    // NOTE(dev): handy for local debugging of key issuance.
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`[dev] issued API key ${raw} for service ${params.serviceId}`);
-    }
-
     const apiKey = await apiKeyRepository.create({
       serviceId: params.serviceId,
       userId: params.userId,

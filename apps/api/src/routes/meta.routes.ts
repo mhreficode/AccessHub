@@ -16,6 +16,7 @@ usersRouter.get(
         name: u.name,
         email: u.email,
         role: u.role,
+        teamId: u.teamId,
         team: u.team?.name ?? null,
       })),
     );

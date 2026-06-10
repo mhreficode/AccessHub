@@ -39,6 +39,7 @@ export interface ApiKey {
   id: string;
   serviceId: string;
   serviceName: string | null;
+  ownerTeamId?: string | null;
   userId: string;
   label: string;
   maskedKey: string;

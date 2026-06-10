@@ -42,6 +42,7 @@ describe('GET /api/services/:id', () => {
   it('returns 404 for an unknown service', async () => {
     const res = await request(app).get('/api/services/nope').set('x-user-id', 'u-nina');
     expect(res.status).toBe(404);
+    expect(res.body.error.code).toBe('SERVICE_NOT_FOUND');
   });
 });
 
@@ -64,5 +65,6 @@ describe('POST /api/services/:id/access-requests', () => {
       .set('x-user-id', 'u-nina')
       .send({ reason: 'too short' });
     expect(res.status).toBe(400);
+    expect(res.body.error.code).toBe('VALIDATION_ERROR');
   });
 });

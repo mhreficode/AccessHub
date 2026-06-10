@@ -2,7 +2,8 @@
 # Lightweight security check for the AccessHub codebase.
 #
 # By default it WARNS (exit 0) so it does not block work during the workshop.
-# Run with STRICT=1 to make any finding fail (exit 1) — useful in a hook or CI.
+# Run with STRICT=1 to make secret-in-console findings fail (exit 2) — useful in
+# a preToolUse hook or CI gate.
 #
 # Usage:
 #   scripts/security-check.sh
@@ -12,10 +13,17 @@ cd "$(dirname "$0")/.."
 
 STRICT="${STRICT:-0}"
 findings=0
+blocking_findings=0
 
 note() {
   echo "⚠  $1"
   findings=$((findings + 1))
+}
+
+block() {
+  echo "BLOCK $1"
+  findings=$((findings + 1))
+  blocking_findings=$((blocking_findings + 1))
 }
 
 # Source files to inspect (skip seed/fixtures with fake placeholder values).
@@ -29,9 +37,9 @@ fi
 for f in "${SRC[@]}"; do
   [ -f "$f" ] || continue
 
-  # 1. console.log / console.error of something that looks like a secret.
+  # 1. console.* of something that looks like a secret should be blocking.
   if grep -nEH 'console\.(log|error|info|debug)\([^)]*(key|token|secret|password)' "$f"; then
-    note "possible secret in a console log: $f"
+    block "possible secret in a console log: $f"
   fi
 
   # 2. The stored hash should never be put into an API response.
@@ -66,7 +74,8 @@ if [ "$findings" -eq 0 ]; then
 fi
 
 echo "security-check: $findings finding(s)."
-if [ "$STRICT" = "1" ]; then
-  exit 1
+if [ "$STRICT" = "1" ] && [ "$blocking_findings" -gt 0 ]; then
+  echo "security-check: blocking finding(s) detected."
+  exit 2
 fi
 exit 0

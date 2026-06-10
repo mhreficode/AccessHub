@@ -50,3 +50,10 @@ Produce them via the helpers in `apps/api/src/utils/errors.ts`. See
   (Expiring Service Access — see `docs/PRD.md` and `specs/access-expiration/`).
 - Prefer small, reviewable changes.
 - Update the relevant docs when you change behavior.
+
+## Required Execution Workflow
+
+- Always run the `planner` agent first for implementation tasks.
+- Present the planner output for review before making code changes.
+- Start implementation only after plan review using the `executer` agent.
+- If the scope changes materially, stop execution, rerun `planner`, and repeat review.

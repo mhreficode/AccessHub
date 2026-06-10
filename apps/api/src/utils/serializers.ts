@@ -11,7 +11,7 @@ interface ApiKeyRecord {
   createdAt: Date;
   revokedAt: Date | null;
   lastUsedAt: Date | null;
-  service?: { name: string } | null;
+  service?: { name: string; ownerTeamId: string } | null;
 }
 
 /**
@@ -23,6 +23,7 @@ export function serializeApiKey(key: ApiKeyRecord) {
     id: key.id,
     serviceId: key.serviceId,
     serviceName: key.service?.name ?? null,
+    ownerTeamId: key.service?.ownerTeamId ?? null,
     userId: key.userId,
     label: key.label,
     maskedKey: maskKey(key.keyPrefix),
